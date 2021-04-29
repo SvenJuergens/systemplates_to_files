@@ -1,0 +1,23 @@
+{
+    "name": "svenjuergens/systemplates-to-files",
+    "type": "typo3-cms-extension",
+    "description": "write database sys_template records to an extension",
+    "authors": [],
+    "require": {
+        "typo3/cms-core": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "SvenJuergens\\SystemplatesToFiles\\": "Classes"
+        }
+    },
+    "replace": {
+        "svenjuergens/systemplates-to-files": "self.version",
+        "typo3-ter/systemplates-to-files": "self.version"
+    },
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "systemplates_to_files"
+		}
+	}
+}

@@ -1,0 +1,15 @@
+
+# Module configuration
+module.tx_systemplatestofiles_tools_systemplatestofilesmain {
+    persistence {
+        storagePid = {$module.tx_systemplatestofiles_main.persistence.storagePid}
+    }
+    view {
+        templateRootPaths.0 = EXT:systemplates_to_files/Resources/Private/Backend/Templates/
+        templateRootPaths.1 = {$module.tx_systemplatestofiles_main.view.templateRootPath}
+        partialRootPaths.0 = EXT:systemplates_to_files/Resources/Private/Backend/Partials/
+        partialRootPaths.1 = {$module.tx_systemplatestofiles_main.view.partialRootPath}
+        layoutRootPaths.0 = EXT:systemplates_to_files/Resources/Private/Backend/Layouts/
+        layoutRootPaths.1 = {$module.tx_systemplatestofiles_main.view.layoutRootPath}
+    }
+}
