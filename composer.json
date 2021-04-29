@@ -1,8 +1,13 @@
 {
     "name": "svenjuergens/systemplates-to-files",
     "type": "typo3-cms-extension",
-    "description": "write database sys_template records to an extension",
-    "authors": [],
+    "description": "write database sys_template records as *.typoscript files to an extension",
+	"authors": [
+		{
+			"name": "Sven Jürgens",
+			"email": "t3@blue-side.de"
+		}
+	],
     "require": {
         "typo3/cms-core": "^9.5"
     },

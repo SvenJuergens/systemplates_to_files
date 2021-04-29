@@ -12,10 +12,10 @@
 
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Sys_templates to Files',
-    'description' => 'write database sys_template records to an extension',
+    'description' => 'write database sys_template records as *.typoscript files to an extension',
     'category' => 'plugin',
-    'author' => '',
-    'author_email' => '',
+    'author' => 'Sven Jürgens',
+    'author_email' => 't3@blue-side.de',
     'state' => 'beta',
     'uploadfolder' => 0,
     'createDirs' => '',
