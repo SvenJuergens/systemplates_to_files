@@ -48,6 +48,9 @@ class SysFileController extends ActionController
             $pages[$template['pid']]['templates'][] =  $template;
         }
         $this->writeFilesToExtension($pages, $extension);
+
+        $this->view->assign('extension', $extension);
+        return $this->view->render();
     }
 
     protected function getLocalExtensions(): array
@@ -70,7 +73,7 @@ class SysFileController extends ActionController
             ->getQueryBuilderForTable('sys_template');
 
         return $queryBuilder
-            ->select('uid', 'pid', 'title', 'constants', 'config')
+            ->select('uid', 'pid', 'title', 'constants', 'config', 'include_static_file')
             ->from('sys_template')
             ->where(
                 $queryBuilder->expr()->in(
@@ -129,22 +132,30 @@ class SysFileController extends ActionController
             );
 
             foreach ($pagesToWrite['templates'] ?? [] as $template) {
-                if (!empty($template['constants'])) {
+
+                $constantsContent = '';
+                $setupContent = '';
+                if(!empty($template['include_static_file'])){
+                    $constantsContent = $this->getTypoScriptSourceFileName($template['include_static_file'], 'constants');
+                    $setupContent = $this->getTypoScriptSourceFileName($template['include_static_file'], 'setup');
+                }
+
+                if (!empty($template['constants']) || !empty($constantsContent)) {
                     GeneralUtility::mkdir_deep($newPath . 'Constants');
                     $filePath = $newPath . 'Constants/' . $storage->sanitizeFileName($template['title'] . '.typoscript');
                     GeneralUtility::writeFile(
                         $filePath,
-                        $template['constants'],
+                        $constantsContent . $template['constants'],
                         true
                     );
                     $constants[] = (explode('ext/', $filePath))[1];
                 }
-                if (!empty($template['config'])) {
+                if (!empty($template['config']) || !empty($setupContent)) {
                     GeneralUtility::mkdir_deep($newPath . 'Setup');
                     $filePathConfig = $newPath . 'Setup/' . $storage->sanitizeFileName($template['title'] . '.typoscript');
                     GeneralUtility::writeFile(
                         $filePathConfig,
-                        $template['config'],
+                        $setupContent . $template['config'],
                         true
                     );
                     $setup[] = (explode('ext/', $filePathConfig))[1];
@@ -165,5 +176,33 @@ class SysFileController extends ActionController
                 FILE_APPEND
             );
         }
+    }
+    /**
+     * Retrieves the content of the first existing file by extension order.
+     * Returns the empty string if no file is found.
+     *
+     * @param string $filePath The location of the file.
+     * @param string $baseName The base file name. "constants" or "setup".
+     * @return string
+     */
+    protected function getTypoScriptSourceFileName($filePath, $baseName)
+    {
+        if (strpos($filePath, 'EXT:') === 0) {
+            list($extKey, $localPath) = explode('/', substr($filePath, 4), 2);
+            if ((string)$extKey !== '' && ExtensionManagementUtility::isLoaded($extKey) && (string)$localPath !== '') {
+                $localPath = rtrim($localPath, '/') . '/';
+                $ISF_filePath = ExtensionManagementUtility::extPath($extKey) . $localPath;
+                if (@is_dir($ISF_filePath)) {
+                    $extensions = ['.typoscript', '.ts', '.txt'];
+                    foreach ($extensions as $extension) {
+                        $fileName = $ISF_filePath . $baseName . $extension;
+                        if (@file_exists($fileName)) {
+                            return '@import \'' . $filePath . $baseName  . $extension . '\'' . PHP_EOL;
+                        }
+                    }
+                }
+            }
+        }
+        return '';
     }
 }
