@@ -106,6 +106,7 @@ class SysFileController extends ActionController
                     )
                 )
             )
+            ->orderBy('sorting')
             ->execute()
             ->fetchAll();
         $tempRows = [];
@@ -120,7 +121,6 @@ class SysFileController extends ActionController
         $extensionPath = ExtensionManagementUtility::extPath($extension) . 'Configuration/TypoScript/';
         GeneralUtility::mkdir_deep($extensionPath);
         $storage = GeneralUtility::makeInstance(ResourceFactory::class)->getDefaultStorage();
-
         $constants = [];
         $setup = [];
         foreach ($pagesWithTemplates as $pagesToWrite) {
@@ -151,7 +151,6 @@ class SysFileController extends ActionController
                 }
             }
         }
-
         if (!empty($constants)) {
             file_put_contents(
                 $extensionPath . 'constants.typoscript',
