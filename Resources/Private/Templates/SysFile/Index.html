@@ -7,9 +7,10 @@
 
 	<f:form action="convertToFiles">
 		<div class="form-section form-group">
-			<label for="extension">Write Files to this Extension</label>
+			<label for="extension">Write Files to this Extension</label><br>
+            <span>(to SubFolder Configuration/TypoScript/)</span>
 			<div class="form-control-wrap">
-				<div class="input-group">
+				<div class="input-group" style="margin: 10px 0">
                     <f:form.select
                         name="extension"
                         value="{selectedExtension}"
@@ -20,15 +21,17 @@
                         optionLabelField="key"
                         prependOptionLabel="{f:translate(id: 'please.select')}"/>
 				</div>
+                <label>Uid of page with sys_template records</label><br>
+                <span>(recursive to 99 Levels)</span>
                 <div class="input-group" style="margin: 10px 0">
-                    <label>Uid of page with sys_template records (recursive to 99 Levels)</label><br>
                    <f:form.textfield
                        id="pageUid"
                        name="pageUid"
                        required="required"
                    />
                 </div>
-                <div>
+                <div style="margin: 10px 0">
+                    <p>All existing files are overwritten</p>
                     <f:form.submit value="Write files" />
                 </div>
 			</div>
