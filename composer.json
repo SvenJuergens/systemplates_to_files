@@ -2,6 +2,7 @@
     "name": "svenjuergens/systemplates-to-files",
     "type": "typo3-cms-extension",
     "description": "write database sys_template records as *.typoscript files to an extension",
+	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
 			"name": "Sven Jürgens",
