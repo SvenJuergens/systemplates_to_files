@@ -5,6 +5,7 @@ namespace SvenJuergens\SystemplatesToFiles\Controller;
 use SvenJuergens\SystemplatesToFiles\Utility\Helper;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -42,6 +43,7 @@ class SysFileController extends ActionController
         $extension = $this->request->getArgument('extension');
         $pageUids = Helper::extendPidListByChildren($pageUid, '99');
         $templates = $this->getSysTemplates($pageUids);
+        dd($templates);
         $pages = $this->getPages($pageUids);
 
         foreach ($templates as $template) {
@@ -69,6 +71,7 @@ class SysFileController extends ActionController
         if (count($pidArray) === 0) {
             return [];
         }
+        /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getQueryBuilderForTable('sys_template');
 
@@ -84,6 +87,8 @@ class SysFileController extends ActionController
                     )
                 )
             )
+            ->orderBy('pid')
+            ->addOrderBy('sorting')
             ->execute()
             ->fetchAll();
     }
