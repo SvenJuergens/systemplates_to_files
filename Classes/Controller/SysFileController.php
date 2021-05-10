@@ -197,7 +197,7 @@ class SysFileController extends ActionController
                     foreach ($extensions as $extension) {
                         $fileName = $ISF_filePath . $baseName . $extension;
                         if (@file_exists($fileName)) {
-                            return '@import \'' . $filePath . $baseName  . $extension . '\'' . PHP_EOL;
+                            return '@import \'' . rtrim($filePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $baseName  . $extension . '\'' . PHP_EOL;
                         }
                     }
                 }
