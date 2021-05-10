@@ -43,7 +43,6 @@ class SysFileController extends ActionController
         $extension = $this->request->getArgument('extension');
         $pageUids = Helper::extendPidListByChildren($pageUid, '99');
         $templates = $this->getSysTemplates($pageUids);
-        dd($templates);
         $pages = $this->getPages($pageUids);
 
         foreach ($templates as $template) {
