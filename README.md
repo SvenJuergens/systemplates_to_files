@@ -1,6 +1,6 @@
 # TYPO3 Extension Sys_templates to files
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/svenjuergens/systemplates_to_files.svg)](https://packagist.org/packages/svenjuergens/systemplates_to_files)
+[![Latest Stable Version](https://img.shields.io/packagist/v/svenjuergens/systemplates-to-files.svg)](https://packagist.org/packages/svenjuergens/systemplates-to-files)
 
 The extension makes it possible to write all TypoScript templates (sys_template records) stored in the database to files. This means that the data can be versioned together with a sitepackage extension.
 ## Installation
